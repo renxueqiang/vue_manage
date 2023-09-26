@@ -15,9 +15,6 @@
 .homeContent {
     background-color: #302837;
     flex: 1;
-    // .contain {
-    //     height: 1000px;
-    // }
 }
 </style>
   
