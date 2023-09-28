@@ -1,7 +1,7 @@
 <template>
   <div class="homeTop">
     <div class="left">
-      <el-icon :size="25" @click="btnClick">
+      <el-icon :size="25" @click="btnClick($event,123)">
         <component :is="state.open ? 'Fold' : 'Expand'"></component>
       </el-icon>
       <el-breadcrumb
@@ -29,7 +29,9 @@ const state = reactive({
 })
 const e = defineEmits(['callBack'])
 
-const btnClick = () => {
+const btnClick = (a:any,b:number) => {
+console.log(a,b);
+
   e('callBack', state.open)
   state.open = !state.open
 }

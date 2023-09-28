@@ -23,53 +23,47 @@
           <el-icon><HomeFilled /></el-icon>
           <template #title>首页</template>
         </el-menu-item>
-
-        <el-sub-menu index="2">
-          <template #title>
-            <el-icon><TrendCharts /></el-icon>
-            <span>订单</span>
-          </template>
-          <el-menu-item index="2-1">item one</el-menu-item>
-          <el-menu-item index="2-2">item two</el-menu-item>
-          <el-sub-menu index="2-3">
-            <template #title><span>item four</span></template>
-            <el-menu-item index="2-3-1">item one</el-menu-item>
-          </el-sub-menu>
-        </el-sub-menu>
-        <el-menu-item index="3">
-          <el-icon><Comment /></el-icon>
-          <template #title>资产</template>
+        <el-menu-item index="2">
+          <el-icon><Monitor /></el-icon>
+          <template #title>数据大屏</template>
         </el-menu-item>
 
-        <el-menu-item index="4">
-          <el-icon><Avatar /></el-icon>
-          <template #title>我的</template>
-        </el-menu-item>
-
-        <el-sub-menu index="2">
+        <el-sub-menu index="3">
           <template #title>
-            <el-icon><TrendCharts /></el-icon>
-            <span>订单</span>
+            <el-icon><Lock /></el-icon>
+            <span>权限管理</span>
           </template>
-          <el-menu-item index="2-1">item one</el-menu-item>
-          <el-menu-item index="2-2">item two</el-menu-item>
-          <el-sub-menu index="2-3">
-            <template #title><span>item four</span></template>
-            <el-menu-item index="2-3-1">item one</el-menu-item>
-          </el-sub-menu>
+          <el-menu-item index="3-1">
+            <el-icon><User /></el-icon>
+            <span>用户管理</span></el-menu-item
+          >
+          <el-menu-item index="3-2">
+            <el-icon><UserFilled /></el-icon>
+            <span>角色管理</span></el-menu-item
+          >
+          <el-menu-item index="3-3">
+            <el-icon><CreditCard /></el-icon>
+            <span>菜单管理</span>
+          </el-menu-item>
         </el-sub-menu>
-
-        <el-sub-menu index="2">
+        <el-sub-menu index="4">
           <template #title>
-            <el-icon><TrendCharts /></el-icon>
-            <span>订单</span>
+            <el-icon><Handbag /></el-icon>
+            <span>商品管理</span>
           </template>
-          <el-menu-item index="2-1">item one</el-menu-item>
-          <el-menu-item index="2-2">item two</el-menu-item>
-          <el-sub-menu index="2-3">
-            <template #title><span>item four</span></template>
-            <el-menu-item index="2-3-1">item one</el-menu-item>
-          </el-sub-menu>
+
+          <el-menu-item index="4-1">
+            <el-icon><TrendCharts /></el-icon><span>品牌管理</span>
+          </el-menu-item>
+          <el-menu-item index="4-2">
+            <el-icon><Food /></el-icon><span>属性管理</span>
+          </el-menu-item>
+          <el-menu-item index="4-3">
+            <el-icon><Grid /></el-icon><span>SPU管理</span>
+          </el-menu-item>
+          <el-menu-item index="4-4">
+            <el-icon><Collection /></el-icon><span>SKU管理</span>
+          </el-menu-item>
         </el-sub-menu>
       </el-menu>
     </el-scrollbar>
