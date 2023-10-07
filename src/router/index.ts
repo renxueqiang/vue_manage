@@ -2,26 +2,41 @@ import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 
 export const routerArray: RouteRecordRaw[] = [
   {
-    path: '/home',
-    name: 'home',
+    path: '/',
     component: () => import('@/views/home/homeView.vue'),
-    meta: {
-      title: '首页',
-      icon: 'HomeFilled'
-    }
+    redirect: '/home',
+    children: [
+      {
+        path: '/home',
+        name: 'home',
+        component: () => import('@/views/home/homeRightContent.vue'),
+        meta: {
+          title: '首页',
+          icon: 'HomeFilled'
+        }
+      }
+    ]
   },
   {
-    path: '/screen',
-    component: () => import('@/views/screen/screenView.vue'),
-    name: 'screen',
-    meta: {
-      title: '数据大屏',
-      icon: 'Platform'
-    }
+    path: '/',
+    component: () => import('@/views/home/homeView.vue'),
+    children: [
+      {
+        path: '/screen',
+        component: () => import('@/views/screen/screenView.vue'),
+        name: 'screen',
+        meta: {
+          title: '数据大屏',
+          icon: 'Platform'
+        }
+      }
+    ]
   },
+ 
   {
     path: '/permission',
     name: 'permission',
+    component: () => import('@/views/home/homeView.vue'),
     meta: {
       title: '权限管理',
       icon: 'Lock'
@@ -60,6 +75,7 @@ export const routerArray: RouteRecordRaw[] = [
   {
     path: '/product',
     name: 'Product',
+    component: () => import('@/views/home/homeView.vue'),
     meta: {
       title: '商品管理',
       icon: 'Goods'
@@ -113,10 +129,6 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: () => import('@/views/login/loginView.vue')
-    },
-    {
-      path: '/',
-      redirect: '/home'
     },
     ...routerArray,
     {

@@ -1,14 +1,12 @@
 <template>
   <div class="homeRight">
     <HomeTop @callBack="callBack"></HomeTop>
-    <HomeContent></HomeContent>
+    <router-view></router-view>
   </div>
 </template>
 
 <script setup lang="ts">
 import HomeTop from './homeRightTop.vue'
-import HomeContent from './homeRightContent.vue'
-
 const e = defineEmits(['update:isCollapse'])
 const callBack = (v: Boolean) => e('update:isCollapse', v)
 </script>

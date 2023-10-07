@@ -22,21 +22,35 @@
       >
         <template v-for="(item, index) in routerArray" :key="index">
           <el-menu-item :index="item.path" v-if="!item.children">
-            <component :is="item.meta?.icon"></component>
+            <el-icon>
+              <component :is="item.meta?.icon"></component>
+            </el-icon>
             <span>{{ item.meta?.title }}</span>
+          </el-menu-item>
+          <el-menu-item :index="item.children[0].path" v-else-if="item.children.length < 2">
+            <el-icon>
+              <component :is="item.children[0].meta?.icon"></component>
+            </el-icon>
+
+            <span>{{ item.children[0].meta?.title }}</span>
           </el-menu-item>
           <el-sub-menu :index="item.path" v-else>
             <template #title>
-              <component :is="item.meta?.icon"></component>
+              <el-icon>
+                <component :is="item.meta?.icon"></component>
+              </el-icon>
               <span>{{ item.meta?.title }}</span>
             </template>
 
             <el-menu-item
-              v-for="(subItem) in item.children"
+              v-for="subItem in item.children"
               :key="subItem.path"
               :index="subItem.path"
             >
-              <component :is="subItem.meta?.icon"></component>
+              <el-icon>
+                <component :is="subItem.meta?.icon"></component>
+              </el-icon>
+
               <span>{{ subItem.meta?.title }}</span>
             </el-menu-item>
           </el-sub-menu>
@@ -96,9 +110,6 @@ const handleClose = (key: string, keyPath: string[]) => {
   }
   .scroller {
     height: calc(100vh - 30px);
-    svg {
-      width: 20px;
-    }
   }
 }
 
