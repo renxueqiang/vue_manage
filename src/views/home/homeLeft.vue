@@ -18,53 +18,29 @@
         @open="handleOpen"
         @close="handleClose"
         background-color="#5f9ea0"
+        :router="true"
       >
-        <el-menu-item index="1">
-          <el-icon><HomeFilled /></el-icon>
-          <template #title>首页</template>
-        </el-menu-item>
-        <el-menu-item index="2">
-          <el-icon><Monitor /></el-icon>
-          <template #title>数据大屏</template>
-        </el-menu-item>
+        <template v-for="(item, index) in routerArray" :key="index">
+          <el-menu-item :index="item.path" v-if="!item.children">
+            <component :is="item.meta?.icon"></component>
+            <span>{{ item.meta?.title }}</span>
+          </el-menu-item>
+          <el-sub-menu :index="item.path" v-else>
+            <template #title>
+              <component :is="item.meta?.icon"></component>
+              <span>{{ item.meta?.title }}</span>
+            </template>
 
-        <el-sub-menu index="3">
-          <template #title>
-            <el-icon><Lock /></el-icon>
-            <span>权限管理</span>
-          </template>
-          <el-menu-item index="3-1">
-            <el-icon><User /></el-icon>
-            <span>用户管理</span></el-menu-item
-          >
-          <el-menu-item index="3-2">
-            <el-icon><UserFilled /></el-icon>
-            <span>角色管理</span></el-menu-item
-          >
-          <el-menu-item index="3-3">
-            <el-icon><CreditCard /></el-icon>
-            <span>菜单管理</span>
-          </el-menu-item>
-        </el-sub-menu>
-        <el-sub-menu index="4">
-          <template #title>
-            <el-icon><Handbag /></el-icon>
-            <span>商品管理</span>
-          </template>
-
-          <el-menu-item index="4-1">
-            <el-icon><TrendCharts /></el-icon><span>品牌管理</span>
-          </el-menu-item>
-          <el-menu-item index="4-2">
-            <el-icon><Food /></el-icon><span>属性管理</span>
-          </el-menu-item>
-          <el-menu-item index="4-3">
-            <el-icon><Grid /></el-icon><span>SPU管理</span>
-          </el-menu-item>
-          <el-menu-item index="4-4">
-            <el-icon><Collection /></el-icon><span>SKU管理</span>
-          </el-menu-item>
-        </el-sub-menu>
+            <el-menu-item
+              v-for="(subItem) in item.children"
+              :key="subItem.path"
+              :index="subItem.path"
+            >
+              <component :is="subItem.meta?.icon"></component>
+              <span>{{ subItem.meta?.title }}</span>
+            </el-menu-item>
+          </el-sub-menu>
+        </template>
       </el-menu>
     </el-scrollbar>
   </div>
@@ -72,6 +48,8 @@
 
 <script setup lang="ts">
 import { defineProps, watch, ref } from 'vue'
+import { routerArray } from '@/router/index'
+
 const props = defineProps({
   isCollapse: Boolean
 })
@@ -118,8 +96,12 @@ const handleClose = (key: string, keyPath: string[]) => {
   }
   .scroller {
     height: calc(100vh - 30px);
+    svg {
+      width: 20px;
+    }
   }
 }
+
 .el-menu-vertical-demo {
   border-right: none;
 }

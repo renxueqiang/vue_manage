@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { House, ArrowRight } from '@element-plus/icons-vue'
+import { ArrowRight } from '@element-plus/icons-vue'
 import { reactive } from 'vue'
 const state = reactive({
   open: true
