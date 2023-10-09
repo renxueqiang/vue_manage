@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
-
+import useUserStore from '@/stores/user'
 export const routerArray: RouteRecordRaw[] = [
   {
     path: '/',
@@ -32,7 +32,7 @@ export const routerArray: RouteRecordRaw[] = [
       }
     ]
   },
- 
+
   {
     path: '/permission',
     name: 'permission',
@@ -138,10 +138,39 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach(async (to, from, next) => {
-  const isAuthenticated = localStorage.getItem('token')
-  if (!isAuthenticated && to.name != 'login') next({ name: 'login' })
-  else next()
+router.beforeEach(async (to: any, from: any, next: any) => {
+  document.title = '东方甄选 - ' + to.meta.title
+console.log('to',to);
+console.log('from',from);
+console.log('next',next);
+
+  const userStore = useUserStore()
+  const username = userStore.userInfo
+  const token = localStorage.getItem('token')
+
+  if (token) {
+    if (to.path == '/login') {
+      next({ path: '/' })
+    } else {
+      if (username) {
+        next()
+      } else {
+        try {
+          await userStore.getUser()
+          next({ ...to })
+        } catch (error) {
+          await userStore.login()
+          next({ path: '/login', query: { redirect: to.path } })
+        }
+      }
+    }
+  } else {
+    if (to.path == '/login') {
+      next()
+    } else {
+      next({ path: '/login', query: { redirect: to.path } })
+    }
+  }
 })
 
 export default router

@@ -9,7 +9,7 @@
 import homeLeft from './homeLeft.vue';
 import HomeRight from './homeRight.vue';
 import { ref } from 'vue';
-const isCollapse = ref(false)
+const isCollapse = ref(true)
 
 </script>
 

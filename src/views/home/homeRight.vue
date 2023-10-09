@@ -6,9 +6,15 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue';
 import HomeTop from './homeRightTop.vue'
 const e = defineEmits(['update:isCollapse'])
 const callBack = (v: Boolean) => e('update:isCollapse', v)
+
+onMounted(() => {
+  
+})
+
 </script>
 
 <style lang="scss" scoped>
