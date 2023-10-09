@@ -140,10 +140,6 @@ const router = createRouter({
 
 router.beforeEach(async (to: any, from: any, next: any) => {
   document.title = '东方甄选 - ' + to.meta.title
-console.log('to',to);
-console.log('from',from);
-console.log('next',next);
-
   const userStore = useUserStore()
   const username = userStore.state.username
   const token = localStorage.getItem('token')

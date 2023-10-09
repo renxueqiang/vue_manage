@@ -5,14 +5,11 @@ import useUserStore from '@/stores/user'
 
 const AF = axios.create({
   baseURL: '/api',
-  timeout: 5000, 
+  timeout: 5000
 })
 
 AF.interceptors.request.use((config) => {
-
-    const userStore = useUserStore()
-    console.log('token:',userStore.state.token);
-    
+  const userStore = useUserStore()
   if (userStore.state.token) {
     config.headers.token = userStore.state.token
   }
@@ -46,9 +43,9 @@ AF.interceptors.response.use(
     //提示错误信息
     ElMessage({
       type: 'error',
-      message,
+      message
     })
     return Promise.reject(error)
-  },
+  }
 )
 export default AF

@@ -4,7 +4,7 @@
       <el-avatar
         class="avatar_image"
         :size="30"
-        src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+        :src="userStore.state.avatar"
       />
       <span v-show="!isCollapse"> 后台系统 </span>
     </div>
@@ -63,11 +63,13 @@
 <script setup lang="ts">
 import { defineProps, watch, ref } from 'vue'
 import { routerArray } from '@/router/index'
+import useUserStore from '@/stores/user';
 
 const props = defineProps({
   isCollapse: Boolean
 })
 const className = ref(['homeLeft'])
+const userStore = useUserStore()
 
 watch(
   () => props.isCollapse,
