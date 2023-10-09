@@ -47,19 +47,20 @@ import { ref, reactive } from 'vue'
 import useUserStore from '@/stores/user'
 import { ElMessage, ElNotification } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 interface RuleForm {
   name: string
   password: string
 }
 const ruleFormRef = ref<FormInstance>()
-const butonEnabled = ref<boolean>(true)
+const butonEnabled = ref<boolean>(false)
 const butonLoad = ref<boolean>(false)
 
 const userStore = useUserStore()
 const router = useRouter()
-const form = ref<RuleForm>({ name: '', password: '' })
+const route = useRoute()
+const form = ref<RuleForm>({ name: 'admin', password: 'atguigu123' })
 
 const rules = reactive<FormRules<RuleForm>>({
   name: [
@@ -86,30 +87,29 @@ const rules = reactive<FormRules<RuleForm>>({
 const onSubmit = async (formE: FormInstance | undefined) => {
   console.log(form.value.name, form.value.password, formE)
   butonLoad.value = true
-  setTimeout(async () => {
-    butonLoad.value = false
-    let res = await userStore.userLogin({
-      username: form.value.name,
-      password: form.value.password
+
+  let res = await userStore.userLogin({
+    username: form.value.name,
+    password: form.value.password
+  })
+  butonLoad.value = false
+  if (res == 'ok') {
+    let redirect: any = route.query.redirect;
+    router.push({ path: redirect || '/' });
+    ElNotification({
+      type: 'success',
+      message: '欢迎回来',
+      title: 'HI,你好'
     })
-    if (res == 'ok') {
-      console.log(11)
-      router.push('/')
-      ElNotification({
-        type: 'success',
-        message: '欢迎回来',
-        title: 'HI,你好'
-      })
-    } else {
-      ElMessage.error(res)
-    }
-  }, 1000)
+  } else {
+    ElMessage.error(res)
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 .contain {
-  background: red url('@/assets/background.jpg') center no-repeat;
+  // background: red url('@/assets/background.jpg') center no-repeat;
   .head {
     margin: 0 0 20px 80px;
   }

@@ -1,19 +1,25 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
-import type { loginFormData, loginResponseData } from '@/model/userModel'
-import AF from '@/utils/request'
+import { reactive } from 'vue'
+import type { loginFormData, loginResponseData ,userInfoReponseData} from '@/model/userModel'
+import { reqLogin, reqUserInfo } from '@/utils/api/api'
 
 const useUserStore = defineStore('User', () => {
-  const token = ref<string | null>(localStorage.getItem('token'))
-  const userInfo = ref<string | null>(null)
+  const state = reactive({
+    token: localStorage.getItem('token'),
+    username: '',
+    avatar: '',
+    buttons: ['']
+  })
+
   const userLogin = async (data: loginFormData) => {
-    const result: loginResponseData = await AF.post('api/user/login', data)
+    const result: loginResponseData = await reqLogin(data)
     if (result.code == 200) {
-      token.value = result.data.token
-      localStorage.setItem('token', result.data.token)
+      state.token = result.data
+      localStorage.setItem('token', result.data)
+      getUser()
       return 'ok'
     } else {
-      return result.data.message
+      return result.message
     }
   }
 
@@ -21,20 +27,27 @@ const useUserStore = defineStore('User', () => {
     return '123'
   }
   const getUser = async () => {
-    userInfo.value = '123'
-    return '123'
+    const result: userInfoReponseData = await reqUserInfo()
+    //如果获取用户信息成功，存储一下用户信息
+    if (result.code == 200) {
+      state.username = result.data.name
+      state.avatar = result.data.avatar
+      state.buttons = result.data.buttons
+console.log(result);
+
+      return 'ok'
+    } else {
+      return Promise.reject(new Error(result.message))
+    }
   }
   return {
-    token,
-    userInfo,
+    state,
     getUser,
     login,
     userLogin
   }
 })
 export default useUserStore
-
-
 
 /*
 

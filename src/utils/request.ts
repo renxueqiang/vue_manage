@@ -4,17 +4,17 @@ import { ElMessage } from 'element-plus'
 import useUserStore from '@/stores/user'
 
 const AF = axios.create({
-  baseURL: import.meta.env.BASE_URL,
+  baseURL: '/api',
   timeout: 5000, 
 })
 
 AF.interceptors.request.use((config) => {
 
     const userStore = useUserStore()
-    console.log('token:',userStore.token);
+    console.log('token:',userStore.state.token);
     
-  if (userStore.token) {
-    config.headers.token = userStore.token
+  if (userStore.state.token) {
+    config.headers.token = userStore.state.token
   }
   return config
 })
