@@ -55,7 +55,7 @@ interface RuleForm {
 }
 const ruleFormRef = ref<FormInstance>()
 const butonEnabled = ref<boolean>(true)
-const butonLoad = ref<boolean>(true)
+const butonLoad = ref<boolean>(false)
 
 const userStore = useUserStore()
 const router = useRouter()
