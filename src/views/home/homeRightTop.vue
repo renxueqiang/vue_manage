@@ -1,15 +1,24 @@
 <template>
   <div class="homeTop">
     <div class="left">
-      <el-icon :size="25" @click="btnClick($event, 123)">
+      <el-icon :size="25" @click="btnClick">
         <component :is="state.open ? 'Fold' : 'Expand'"></component>
       </el-icon>
       <el-breadcrumb
         :separator-icon="ArrowRight"
         style="height: 25px; line-height: 25px; margin-left: 10px"
       >
-        <el-breadcrumb-item :to="{ path: '/' }"> 首页 </el-breadcrumb-item>
-        <el-breadcrumb-item> 管理</el-breadcrumb-item>
+        <el-breadcrumb-item
+          v-for="(item, index) in route.matched"
+          :key="index"
+          v-show="item.meta.title"
+          :to="item.path"
+        >
+          <el-icon>
+            <component :is="item.meta.icon"></component>
+          </el-icon>
+          <span>{{ item.meta.title }}</span>
+        </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
 
@@ -24,15 +33,19 @@
           <el-button type="info" icon="Setting" size="default" circle></el-button>
         </template>
         <template #default>
-          <p style="margin-bottom: 25px;font-weight:bold">主题设置</p>
+          <p style="margin-bottom: 25px; font-weight: bold">主题设置</p>
           <div class="demo-color-block">
             <span class="demonstration">主题颜色</span>
-            <el-color-picker v-model="color1" />
+            <el-color-picker v-model="state.color1" />
           </div>
 
           <div class="demo-color-block">
             <span class="demonstration">暗黑模式</span>
-            <el-switch v-model="value1" :active-action-icon="Sunny" :inactive-action-icon="Hide" />
+            <el-switch
+              v-model="state.value1"
+              :active-action-icon="Sunny"
+              :inactive-action-icon="Hide"
+            />
           </div>
         </template>
       </el-popover>
@@ -58,33 +71,34 @@
 <script setup lang="ts">
 import useUserStore from '@/stores/user'
 import { ArrowRight, ArrowDown, Hide, Sunny } from '@element-plus/icons-vue'
-import { reactive, ref } from 'vue'
+import { onMounted, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-
-const value1 = ref(true)
 const state = reactive({
-  open: true
+  open: true,
+  color1: '#409EFF',
+  value1: true
 })
 const e = defineEmits(['callBack'])
 const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
-const color1 = ref('#409EFF')
+
+onMounted(() => {
+  console.log('hahahhah', route)
+})
 
 const btnClick = () => {
   e('callBack', state.open)
   state.open = !state.open
 }
-const btnClick1 = () => {
- 
-}
+const btnClick1 = () => {}
 const btnClick2 = () => {
-  let full = document.fullscreenElement;
-    if (!full) {
-        document.documentElement.requestFullscreen();
-    } else {
-        document.exitFullscreen();
-    }
+  let full = document.fullscreenElement
+  if (!full) {
+    document.documentElement.requestFullscreen()
+  } else {
+    document.exitFullscreen()
+  }
 }
 const logout = async () => {
   await userStore.logout()
@@ -130,10 +144,7 @@ const logout = async () => {
   align-items: center;
   margin-bottom: 16px;
   .demonstration {
-  margin-right: 20px;
+    margin-right: 20px;
+  }
 }
-
-}
-
-
 </style>
