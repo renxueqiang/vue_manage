@@ -14,9 +14,29 @@
     </div>
 
     <div class="right">
-      <el-button type="info" icon="Refresh" size="default" @click="btnClick" circle></el-button>
-      <el-button type="info" icon="FullScreen" size="default" @click="btnClick" circle></el-button>
-      <el-button type="info" icon="Setting" size="default" @click="btnClick" circle></el-button>
+      <el-button type="info" icon="Refresh" size="default" @click="btnClick1" circle></el-button>
+      <el-button type="info" icon="FullScreen" size="default" @click="btnClick2" circle></el-button>
+      <el-popover
+        :width="200"
+        popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;"
+      >
+        <template #reference>
+          <el-button type="info" icon="Setting" size="default" circle></el-button>
+        </template>
+        <template #default>
+          <p style="margin-bottom: 25px;font-weight:bold">主题设置</p>
+          <div class="demo-color-block">
+            <span class="demonstration">主题颜色</span>
+            <el-color-picker v-model="color1" />
+          </div>
+
+          <div class="demo-color-block">
+            <span class="demonstration">暗黑模式</span>
+            <el-switch v-model="value1" :active-action-icon="Sunny" :inactive-action-icon="Hide" />
+          </div>
+        </template>
+      </el-popover>
+
       <el-avatar :src="userStore.state.avatar" :size="32" style="margin: 0 10px" />
       <el-dropdown>
         <span class="el-dropdown-link">
@@ -37,9 +57,11 @@
 
 <script setup lang="ts">
 import useUserStore from '@/stores/user'
-import { ArrowRight, ArrowDown } from '@element-plus/icons-vue'
-import { reactive } from 'vue'
+import { ArrowRight, ArrowDown, Hide, Sunny } from '@element-plus/icons-vue'
+import { reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+
+const value1 = ref(true)
 const state = reactive({
   open: true
 })
@@ -47,9 +69,22 @@ const e = defineEmits(['callBack'])
 const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
-const btnClick = (a: any, b: number) => {
+const color1 = ref('#409EFF')
+
+const btnClick = () => {
   e('callBack', state.open)
   state.open = !state.open
+}
+const btnClick1 = () => {
+ 
+}
+const btnClick2 = () => {
+  let full = document.fullscreenElement;
+    if (!full) {
+        document.documentElement.requestFullscreen();
+    } else {
+        document.exitFullscreen();
+    }
 }
 const logout = async () => {
   await userStore.logout()
@@ -89,4 +124,16 @@ const logout = async () => {
 :focus-visible {
   outline: none;
 }
+
+.demo-color-block {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  .demonstration {
+  margin-right: 20px;
+}
+
+}
+
+
 </style>
