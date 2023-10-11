@@ -17,7 +17,7 @@
           <el-icon>
             <component :is="item.meta.icon"></component>
           </el-icon>
-          <span>{{ item.meta.title }}</span>
+          <span >{{ item.meta.title }}</span>
         </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
