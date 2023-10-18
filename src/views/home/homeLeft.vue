@@ -61,7 +61,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, watch, ref } from 'vue'
+import {watch, ref } from 'vue'
 import { routerArray } from '@/router/index'
 import useUserStore from '@/stores/user';
 
